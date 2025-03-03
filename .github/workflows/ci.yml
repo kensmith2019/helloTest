@@ -16,44 +16,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up build environment
-        run: sudo apt-get update && sudo apt-get install -y gcc make cmake clang-format pylint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make
 
       - name: Build project
         run: |
-          # 使用 CMake 构建项目
-          cmake -S . -B build
-          cmake --build build
+          gcc -Wall -g -I src -o hello_test src/hello.c test/test_hello.c
 
       - name: Run tests
-        run: |
-          # 运行 CTest
-          ctest --test-dir buildname: CI for C Project
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up build environment
-        run: sudo apt-get update && sudo apt-get install -y gcc make cmake clang-format pylint
-
-      - name: Build project
-        run: |
-          # 使用 CMake 构建项目
-          cmake -S . -B build
-          cmake --build build
-
-      - name: Run tests
-        run: |
-          # 运行 CTest
-          ctest --test-dir build
+        run: ./hello_test
